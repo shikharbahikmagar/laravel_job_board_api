@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmployersController;
+use App\Http\Controllers\Api\JobPostsController;
 
 
 Route::get('/user', function (Request $request) {
@@ -26,9 +27,14 @@ Route::prefix('/employer')->namespace('Employer')->group(function() {
 
     Route::post('register', [EmployersController::class, 'register']);
     Route::post('login', [EmployersController::class, 'login']);
+
     Route::group(["middleware" => ["auth:sanctum"]], function() {
 
         Route::get('profile', [EmployersController::class, 'profile']);
         Route::get('logout', [EmployersController::class, 'logout']);
+        Route::match(['get', 'post'], '/add-edit-jobs/{id?}', [JobPostsController::class, 'addEditJobs']);
+    
     });
 });
+
+Route::get('/jobs', [JobPostsController::class, 'jobs']);
