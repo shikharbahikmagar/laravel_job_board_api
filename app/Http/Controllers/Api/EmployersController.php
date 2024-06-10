@@ -48,17 +48,17 @@ class EmployersController extends Controller
             }
             
             //save to database
-            $employer = New Employer;
-            $employer->name = $data['name'];
-            $employer->email = $data['email'];
-            $employer->phone_number = $data['phone_number'];
-            $employer->address = $data['address'];
-            $employer->company_name = $data['company_name'];
-            $employer->company_address = $data['company_address'];
-            $employer->password = bcrypt($data['password']);
-            $employer->save();
-    
-            // $success['token'] = $employer->createToken('JobBoarding')->plainTextToken();
+            $employer = Employer::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone_number' => $data['phone_number'],
+                'address' => $data['address'],
+                'company_name' => $data['company_name'],
+                'company_address' => $data['company_address'],
+                'password' => bcrypt($data['password']),
+            ]);
+
+            $success['token'] = $employer->createToken("employer token")->plainTextToken;
             $success['name'] = $employer->name;
                 
             //send response
@@ -110,7 +110,7 @@ class EmployersController extends Controller
             {
     
                 $employer = Auth::guard('employer')->user();
-                // $success['token'] = $employer->createToken('JobBoarding')->plainTextToken();
+                $success['token'] = $employer->createToken('JobBoarding')->plainTextToken;
                 $success['name'] = $employer->name;
     
                 $response = [
@@ -134,26 +134,27 @@ class EmployersController extends Controller
             }
         }
     
+        public function profile()
+        {
+            $user = auth()->user();
+            //$user->token()->delete();
+            $response = [
+                'status' => true,
+                'message' => 'profile',
+                'data' => $user,
+            ];
+            return response()->json($response, 200);
+    
+        }
     
         //employer logout
         public function logout()
         {
-            if(Auth::guard('employer')->check())
-            {
-                Auth::guard('employer')->logout();
-                $response = [
-                    'success' => true,
-                    'message' => 'logout successfully'
-                ];
-                return response()->json($response, 200);
-            }
-            else
-            {
-                $response = [
-                    'success' => false,
-                    'message' => 'user is not logged in',
-                ];
-                return response()->json($response, 400);
-            }
+            auth()->user()->tokens()->delete();
+            $response = [
+                'status' => true,
+                'message' => 'employee logout successfully',
+            ];
+            return response()->json($response, 200);
         }
 }

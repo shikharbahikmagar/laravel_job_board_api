@@ -8,7 +8,7 @@ use App\Models\User;
 use Validator;
 use Auth;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
     //user registration
     public function register(Request $request)
@@ -54,7 +54,7 @@ class AuthController extends Controller
         $user->password = bcrypt($data['password']);
         $user->save();
 
-        // $success['token'] = $user->createToken('JobBoarding')->plainTextToken();
+        $success['token'] = $user->createToken('JobBoarding')->plainTextToken;
         $success['name'] = $user->name;
             
         //send response
@@ -106,7 +106,7 @@ class AuthController extends Controller
         {
 
             $user = Auth::user();
-            // $success['token'] = $user->createToken('JobBoarding')->plainTextToken();
+            $success['token'] = $user->createToken('JobBoarding')->plainTextToken;
             $success['name'] = $user->name;
 
             $response = [
@@ -132,19 +132,27 @@ class AuthController extends Controller
 
 
     //user logout
+    public function profile()
+    {
+        $user = auth()->user();
+        //$user->token()->delete();
+        $response = [
+            'status' => true,
+            'message' => 'profile',
+            'data' => $user,
+        ];
+        return response()->json($response, 200);
+
+    }
+
+    //logout
     public function logout()
     {
-            Auth::logout();
-            $response = [
-                'message' => 'logout'
-            ];
-            return response()->json($response, 400);
-        // }else
-        // {
-        //     $response = [
-        //         'message' => 'login'
-        //     ];
-        //     return response()->json($response, 400);
-        // }
+        auth()->user()->tokens()->delete();
+        $response = [
+            'status' => true,
+            'message' => 'user logout successfully',
+        ];
+        return response()->json($response, 200);
     }
 }

@@ -14,14 +14,21 @@ Route::prefix('/user')->namespace('User')->group(function() {
 
     Route::post('register', [UserController::class, 'register']);
     Route::post('login', [UserController::class, 'login']);
-    Route::get('logout', [UserController::class, 'logout']);
+    Route::group(["middleware" => ["auth:sanctum"]], function() {
+
+        Route::get('profile', [UserController::class, 'profile']);
+        Route::get('logout', [UserController::class, 'logout']);
+    });
 
 });
 
-Route::prefix('/employer')->namespace('User')->group(function() {
+Route::prefix('/employer')->namespace('Employer')->group(function() {
 
     Route::post('register', [EmployersController::class, 'register']);
     Route::post('login', [EmployersController::class, 'login']);
-    Route::get('logout', [EmployersController::class, 'logout']);
+    Route::group(["middleware" => ["auth:sanctum"]], function() {
 
+        Route::get('profile', [EmployersController::class, 'profile']);
+        Route::get('logout', [EmployersController::class, 'logout']);
+    });
 });
