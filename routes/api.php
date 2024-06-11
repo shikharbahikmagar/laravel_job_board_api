@@ -32,7 +32,8 @@ Route::prefix('/employer')->namespace('Employer')->group(function() {
 
         Route::get('profile', [EmployersController::class, 'profile']);
         Route::get('logout', [EmployersController::class, 'logout']);
-        Route::match(['get', 'post'], '/add-edit-jobs/{id?}', [JobPostsController::class, 'addEditJobs']);
+        Route::match(['get', 'post'], '/add-job', [JobPostsController::class, 'addJobs']);
+        Route::match(['get', 'put'], '/edit-job/{id?}', [JobPostsController::class, 'editJobs']);
     
     });
 });
