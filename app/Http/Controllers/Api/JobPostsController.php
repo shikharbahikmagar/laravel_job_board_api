@@ -78,6 +78,7 @@ class JobPostsController extends Controller
         }
     }
 
+    //edit job posts
     public function editJobs(Request $request, $id=null)
     {
         if($id == "")
@@ -158,5 +159,53 @@ class JobPostsController extends Controller
             return response()->json($response, 200);
     
         }
+    }
+
+    //delete job posts
+    public function deleteJob($id=null)
+    {
+        //handele empty id value
+        if($id == "")
+        {
+            $response = [
+               'success' => false,
+               'message' => 'job not found',
+            ];
+            return response()->json($response, 400);
+        }
+
+        //check if job exist or not
+        $jobCount = JobPost::where('id', $id)->count();
+
+        if($jobCount == 0)
+        {
+            $response = [
+                'success' => false,
+                'message' => 'job not found',
+             ];
+             return response()->json($response, 400);
+        }
+
+        $job_post = JobPost::find($id);
+
+        //check if employer is authorized to delete job or not
+        if($job_post->employer_id!= auth()->user()->id )
+        {
+            $response = [
+                "success" => false,
+                "message" => "You are not authorized to delete this job",
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        $job_post->delete();
+        $response = [
+           'success' => true,
+           'message' => 'job deleted successfully',
+        ];
+        return response()->json($response, 200);
+
+
     }
 }
