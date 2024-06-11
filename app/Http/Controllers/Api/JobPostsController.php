@@ -199,6 +199,7 @@ class JobPostsController extends Controller
             return response()->json($response, 400);
         }
 
+
         $job_post->delete();
         $response = [
            'success' => true,
@@ -207,5 +208,47 @@ class JobPostsController extends Controller
         return response()->json($response, 200);
 
 
+    }
+
+    //search jobs
+    public function searchJobs(Request $request)
+    {
+        //keyword recieved from search form
+        $search = $request->all();
+        $keyword = $search['search'];
+        //dd($keyword);
+        
+        //multiple queries to search jobs according to keyword
+        $jobs = JobPost::where( function($query) use($keyword){
+            $query->where('job_title', 'like', '%'.$keyword.'%')
+            ->orWhere('company_name', 'like', '%'.$keyword.'%')
+            ->orWhere('location', 'like', '%'.$keyword.'%')
+            ->orWhere('skills', 'like', '%'.$keyword.'%');
+        })->where('status', 1);
+
+        $jobs = $jobs->get();
+        // dd($jobs);
+
+        //check if jobs are found or not
+        if($jobs->count() == 0)
+        {
+            $response = [
+                "success" => false,
+                "message" => "No jobs found try using more specific keywords.",
+            ];
+            return response()->json($response, 400);
+
+
+
+        }
+
+        //returning jobs with job details
+        $response = [
+            "success" => true,
+            "message" => "jobs found",
+            "jobs" => $jobs
+        ];
+
+        return response()->json($response, 200);
     }
 }

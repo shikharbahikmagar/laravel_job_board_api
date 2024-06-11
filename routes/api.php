@@ -34,9 +34,10 @@ Route::prefix('/employer')->namespace('Employer')->group(function() {
         Route::get('logout', [EmployersController::class, 'logout']);
         Route::match(['get', 'post'], '/add-job', [JobPostsController::class, 'addJobs']);
         Route::match(['get', 'put'], '/edit-job/{id?}', [JobPostsController::class, 'editJobs']);
-        Route::get('delete-job/{id}', [JobPostsController::class, 'deleteJob']);
+        Route::delete('delete-job/{id}', [JobPostsController::class, 'deleteJob']);
 
     });
 });
 
+Route::post('/search-jobs', [JobPostsController::class, 'searchJobs']);
 Route::get('/jobs', [JobPostsController::class, 'jobs']);
