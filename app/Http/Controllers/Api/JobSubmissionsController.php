@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\SendToEmployer;
+use App\Mail\EmailToUser;
 use Illuminate\Support\Facades\Mail;
 use Resend\Laravel\Facades\Resend;
 use App\Models\JobSubmission;
 use App\Models\JobPost;
 use App\Models\User;
+use Illuminate\Support\Carbon;
+use App\Jobs\SendEmailToUserJob;
 
 class JobSubmissionsController extends Controller
 {
@@ -109,6 +112,7 @@ class JobSubmissionsController extends Controller
             'html' => '<h1>Hello, '.$employer_details['name'].'</h1> <br>'.$user_details['name'].' has applied for '.$job_post_details['job_title'].' job.'
 
         ]);
+     
 
 
         $response = [
@@ -116,6 +120,47 @@ class JobSubmissionsController extends Controller
             'data' => $job_submission,
             'job_post_details' => $job_post_details,
            'message' => 'job applied successfully',
+        ];
+
+        return response()->json($response, 200);
+    }
+
+
+    //update job submission status
+    public function updateJobSubmissionStatus(Request $request, $id = null)
+    {
+
+        $data = $request->all();
+        $status = $data['status'];
+
+        
+        $job = JobSubmission::find($id);
+
+        //job post details
+        $job_post_details = JobPost::find($job['job_post_id']);
+
+        // user details
+        $user_details = User::where('id', $job['user_id'])->first();
+        $user_email = $user_details['email'];
+        $job->update(['status' => $status]);
+
+        // $time = Carbon::now()->addMinutes(1);
+        //echo "<pre>"; print_r($time); die;
+        // Resend::emails()->later($time, [
+
+        //     'from' => 'no-reply@shikharbahik.com.np',
+        //     'to' => $user_email,
+        //     'subject' => 'About the Job you have applied',
+        //     'html' => '<h1>Hello, '.$user_details['name'].'</h1> <br>'.' Your job for '.$job_post_details['job_title'].' is '.$status.'</br> Thankyou.'
+
+        // ]);
+        
+        //dispatch SendEmailToUserJob after 10 minutes email will be sent to user 
+        SendEmailToUserJob::dispatch($status, $user_details, $job_post_details, $user_email)->delay(now()->addMinutes(10));
+
+        $response = [
+           'success' => true,
+           'message' => 'job submission status updated successfully',
         ];
 
         return response()->json($response, 200);

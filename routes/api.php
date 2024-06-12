@@ -48,6 +48,9 @@ Route::prefix('/employer')->namespace('Employer')->group(function() {
         //get all the job submissions
         Route::get('get-job-submissions', [JobSubmissionsController::class, 'getJobSubmissions']);
 
+        //update job submissions status routes
+        Route::match(['get', 'put'], '/update-job-submissions-status/{id?}', [JobSubmissionsController::class, 'updateJobSubmissionStatus']);
+
     });
 });
 
