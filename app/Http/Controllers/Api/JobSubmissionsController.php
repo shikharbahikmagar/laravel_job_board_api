@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Mail\SendToEmployer;
+use Illuminate\Support\Facades\Mail;
+use Resend\Laravel\Facades\Resend;
 use App\Models\JobSubmission;
 use App\Models\JobPost;
 
@@ -12,8 +15,10 @@ class JobSubmissionsController extends Controller
     public function getJobSubmissions()
     {
 
-
-        $job_submissions = JobSubmission::with('user_details', 'job_post_details')->get();
+        $employer_id = auth()->user()->id;
+        $job_submissions = JobSubmission::with('user_details', 'job_post_details', 'employer_details')->where('employer_id', $employer_id)->get();
+        $job_submissions = json_decode(json_encode($job_submissions), true); 
+        //echo "<pre>"; print_r($job_submissions); die;
 
         $response = [
             'success' => true,
@@ -78,6 +83,12 @@ class JobSubmissionsController extends Controller
             return response()->json($response, 400);
         }
 
+        //get employer details to send email to employer
+        $employer_details = $job_post_details['employer_details'];
+        $employer_email = $employer_details['email'];
+
+
+        //echo "<pre>"; print_r("sent email"); die;
         //save job submission to database
         $job_submission = new JobSubmission();
         $job_submission->user_id = $user_id;
@@ -87,6 +98,17 @@ class JobSubmissionsController extends Controller
         $job_submission->cover_letter = $data['cover_letter'];
         $job_submission->approval_status = 'pending';
         $job_submission->save();
+
+        //sending email to employer about the job submission using resend library 
+        Resend::emails()->send([
+
+            'from' => 'no-reply@shikharbahik.com.np',
+            'to' => $employer_email,
+            'subject' => 'Check employer',
+            'html' => '<h1> check email to employer</h1>'
+
+        ]);
+
 
         $response = [
            'success' => true,

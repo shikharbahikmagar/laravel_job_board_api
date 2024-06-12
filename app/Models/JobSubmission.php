@@ -28,4 +28,9 @@ class JobSubmission extends Model
     {
         return $this->belongsTo('App\Models\JobPost', 'job_post_id');
     }
+
+    public function employer_details()
+    {
+        return $this->belongsTo('App\Models\Employer', 'employer_id')->select('id', 'name', 'email', 'company_name');
+    }
 }
