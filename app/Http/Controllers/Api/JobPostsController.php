@@ -164,6 +164,7 @@ class JobPostsController extends Controller
     //delete job posts
     public function deleteJob($id=null)
     {
+        
         //handele empty id value
         if($id == "")
         {
@@ -213,6 +214,7 @@ class JobPostsController extends Controller
     //search jobs
     public function searchJobs(Request $request)
     {
+
         //keyword recieved from search form
         $search = $request->all();
         $keyword = $search['search'];
