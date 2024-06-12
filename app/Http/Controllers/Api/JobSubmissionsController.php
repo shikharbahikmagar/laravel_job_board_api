@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Resend\Laravel\Facades\Resend;
 use App\Models\JobSubmission;
 use App\Models\JobPost;
+use App\Models\User;
 
 class JobSubmissionsController extends Controller
 {
@@ -69,7 +70,7 @@ class JobSubmissionsController extends Controller
         //make in json format so it will be easier to read
         $job_post_details = json_decode(json_encode($job_post_details), true);
         //echo "<pre>"; print_r($job_post_details); die;
-
+        $user_details = User::where('id', $user_id)->first();
 
         //check if user already applied for this job
         $job_submission_count = JobSubmission::where('user_id', $user_id)->where('job_post_id', $job_post_id)->count();
@@ -105,7 +106,7 @@ class JobSubmissionsController extends Controller
             'from' => 'no-reply@shikharbahik.com.np',
             'to' => $employer_email,
             'subject' => 'Check employer',
-            'html' => '<h1> check email to employer</h1>'
+            'html' => '<h1>Hello, '.$employer_details['name'].'</h1> <br>'.$user_details['name'].' has applied for '.$job_post_details['job_title'].' job.'
 
         ]);
 
