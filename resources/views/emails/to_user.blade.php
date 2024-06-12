@@ -15,8 +15,8 @@
         </tr>
         <tr>
             <td style="padding: 20px;">
-                <p>Hello {{ $user_details['name']}},</p>
-                <p>We wanted to inform you about the status of your recent job application with our company. Here's the update:</p>
+                <p>Hello, <span style="text-transform:uppercase">{{ $user_details['name']}}</span></p>
+                <p>We wanted to inform you about the status of your recent job application with our company {{ $job_post_details['company_name'] }}. Here's the update:</p>
                 <p><strong>Job Title:</strong> {{ $job_post_details['job_title'] }}</p>
                 <p><strong>Status:</strong> {{ $status }}</p>
                 <p>If you have any questions or concerns, feel free to contact us.</p>
