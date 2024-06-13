@@ -121,9 +121,16 @@ To test the API Use Postman API Platform
     
         http://127.0.0.1:8000/api/user/add-job-submission/3
 
+        data
+        {
+            "resume": "my_resume.pdf",
+            "cover_letter": "test"
+        }
+
+        other user details will be fetched from users table
         instant email to employer will be send
 
-11. Register as a Employer
+12. Register as a Employer
 
         end point
         http://127.0.0.1:8000/api/employer/register
@@ -141,7 +148,7 @@ To test the API Use Postman API Platform
 
         you will get a token use it to login (same as user login)
 
-12. Login as a Employer
+13. Login as a Employer
 
         end point (method = post)
         http://127.0.0.1:8000/api/employer/login
@@ -154,7 +161,7 @@ To test the API Use Postman API Platform
 
         after logged in you will get another token use it to do operations like posting job editing job details updateing job submission status
 
-13. post jobs
+14. post jobs
 
         end point (method = post)
         http://127.0.0.1:8000/api/employer/add-job
@@ -171,13 +178,13 @@ To test the API Use Postman API Platform
             "status": 1
         }
 
-14. Delete Job
+15. Delete Job
     
             end point (6 = job_post_id) (method = delete)
             http://127.0.0.1:8000/api/employer/delete-job/6
 
             use token of employer and only job post owner (employer) can delete or update the post
-15. update job posts
+16. update job posts
 
             end point (4 is job post id) method = put
             http://127.0.0.1:8000/api/employer/update-job-submission/4
@@ -193,7 +200,7 @@ To test the API Use Postman API Platform
                 "status": 1
             }
 
-16.  Update Job Application status
+17.  Update Job Application status
 
             endpoint (method = put)
              http://127.0.0.1:8000/api/employer/update-job-submissions-status/1
@@ -205,7 +212,7 @@ To test the API Use Postman API Platform
 
              after 10 minutes of submission the email will be sent to user.
 
-17. Get the job submissions details
+18. Get the job submissions details
 
             this details only available to job post owner (employer)
 
