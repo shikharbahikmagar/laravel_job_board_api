@@ -68,7 +68,7 @@ To test the API Use Postman API Platform
                 "token": "32|QJ3kSFPcH9M5yvMecf6rvoMnMi0tuAinWWwddVBHa53b6f69",
                 "name": "shikhar thapa"
             },
-            "message": "user registered in successfully"
+            "message": "user registered successfully"
         }
     
 
