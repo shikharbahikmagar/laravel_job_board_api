@@ -42,6 +42,12 @@ To get started with Job Board API, follow these steps:
     ```
     php artisan serve
 
+    use php artisan db:seed to insert the dummy data using seeder
+
+    In DatabaseSeeder.php file uncomment one by one line and run php artisan db:seed command
+        $this->call(EmployersTableSeeder::class);
+        // $this->call(JobPostsTableSeeder::class);
+        //$this->call(JobSubmissionsTableSeeder::class);
 
 To test the API Use Postman API Platform
 
@@ -213,7 +219,14 @@ To test the API Use Postman API Platform
 
              after 10 minutes of submission the email will be sent to user.
 
-19. Get the job submissions details
+             Resend is used to send email use the below api key in .env file
+     
+             RESEND_API_KEY = re_Rak2yziQ_Asi1evHCyfDm5AG3sWJJ1LNW
+
+             make sure this address is used in MAIL_FROM_ADDRESS in .env
+             MAIL_FROM_ADDRESS="no-reply@shikharbahik.com.np"
+
+20. Get the job submissions details
 
             this details only available to job post owner (employer)
 
