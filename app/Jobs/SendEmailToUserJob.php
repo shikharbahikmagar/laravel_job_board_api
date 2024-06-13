@@ -15,12 +15,14 @@ class SendEmailToUserJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $status;
+    protected $user_email;
     protected $user_details;
     protected $job_post_details;
     /**
      *  * Create a new job instance.
      *
      * @param string $status
+     * * @param string $user_email
      * @param array $user_details
      * @param array $job_post_details
     
@@ -53,3 +55,4 @@ class SendEmailToUserJob implements ShouldQueue
         
     }
 }
+
