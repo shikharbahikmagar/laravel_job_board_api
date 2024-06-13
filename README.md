@@ -97,11 +97,11 @@ To test the API Use Postman API Platform
                 "message": "user logged in successfully"
             }
 
-           this token will be used to do other operations like applying for the job (use like above example while login)
+           //this token will be used to do other operations like applying for the job (use like above example while login)
 
 8. User Profile
 
-            login token should be used as above example while login
+            //login token should be used as above example while login
    
            http://127.0.0.1:8000/api/user/profile
 
@@ -123,11 +123,11 @@ To test the API Use Postman API Platform
 
 10. Apply for the job
 
-        end point (make sure token is used)
+        //end point (make sure token is used)
     
         http://127.0.0.1:8000/api/user/add-job-submission/3
 
-        data
+        //data
         {
             "resume": "my_resume.pdf",
             "cover_letter": "test"
@@ -138,10 +138,10 @@ To test the API Use Postman API Platform
 
 12. Register as a Employer
 
-        end point
+        //end point
         http://127.0.0.1:8000/api/employer/register
 
-        data
+        //data
             {
             "name": "shikhar",
             "email": "user22@gmail.com",
@@ -152,27 +152,27 @@ To test the API Use Postman API Platform
             "password": "123456789"
         }
 
-        you will get a token use it to login (same as user login)
+        //you will get a token use it to login (same as user login)
 
 13. Login as a Employer
 
-        end point (method = post)
+        //end point (method = post)
         http://127.0.0.1:8000/api/employer/login
 
-        data example (use token)
+        //data example (use token)
             {
             "email": "shikharbahik5@gmail.com",
             "password": "123456789"
         }
 
-        after logged in you will get another token use it to do operations like posting job editing job details updateing job submission status
+        //after logged in you will get another token use it to do operations like posting job editing job details updateing job submission status
 
 14. post jobs
 
-        end point (method = post)
+        //end point (method = post)
         http://127.0.0.1:8000/api/employer/add-job
 
-        data example
+        //data example
         {
             "job_title": "java developer", 
             "company_name": "abc", "location": "newroad, pokhara", 
@@ -187,16 +187,16 @@ To test the API Use Postman API Platform
 
 16. Delete Job
     
-            end point (6 = job_post_id) (method = delete)
+            //end point (6 = job_post_id) (method = delete)
             http://127.0.0.1:8000/api/employer/delete-job/6
 
-            use token of employer and only job post owner (employer) can delete or update the post
+            //use token of employer and only job post owner (employer) can delete or update the post
 17. update job posts
 
-            end point (4 is job post id) method = put
+            //end point (4 is job post id) method = put
             http://127.0.0.1:8000/api/employer/update-job-submission/4
 
-            data
+            //data
             {
                 "job_title": "java developer", 
                 "company_name": "abc", "location": "newroad, pokhara", 
@@ -209,39 +209,39 @@ To test the API Use Postman API Platform
 
 18.  Update Job Application status
 
-            endpoint (method = put)
+            //endpoint (method = put)
              http://127.0.0.1:8000/api/employer/update-job-submissions-status/1
-            status can be only pending, accepted and rejected
-             data
+            //status can be only pending, accepted and rejected
+             //data
              {
                 "status": "accepted"
             }
 
-             after 10 minutes of submission the email will be sent to user.
+             //after 10 minutes of submission the email will be sent to applicant.
 
-             Resend is used to send email use the below api key in .env file
+             //Resend is used to send email use the below api key in .env file
      
-             RESEND_API_KEY = re_Rak2yziQ_Asi1evHCyfDm5AG3sWJJ1LNW
+             //RESEND_API_KEY = re_Rak2yziQ_Asi1evHCyfDm5AG3sWJJ1LNW
 
-             make sure this address is used in MAIL_FROM_ADDRESS in .env
-             MAIL_FROM_ADDRESS="no-reply@shikharbahik.com.np"
+             //make sure this address is used in MAIL_FROM_ADDRESS in .env
+             //MAIL_FROM_ADDRESS="no-reply@shikharbahik.com.np"
 
 20. Get the job submissions details
 
-            this details only available to job post owner (employer)
+            //this details only available to job post owner (employer)
 
-            endpoint
+            //endpoint
             http://127.0.0.1:8000/api/employer/get-job-submissions
 
-            employer should be logged in
+            //employer should be logged in
 
 18 Logout
 
-        for user
-        end point (method = get)
+        //for user
+        //end point (method = get)
         http://127.0.0.1:8000/api/user/logout
 
-        for employer method = get
+        //for employer method = get
         http://127.0.0.1:8000/api/employer/logout
 
-        make sure token is inserted as already explained above
+        //make sure token is inserted as already explained above
