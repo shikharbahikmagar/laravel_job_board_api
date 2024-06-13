@@ -168,7 +168,6 @@ To test the API Use Postman API Platform
 
         data example
         {
-            "employer_id": 11, 
             "job_title": "java developer", 
             "company_name": "abc", "location": "newroad, pokhara", 
             "skills": "java",
@@ -178,13 +177,15 @@ To test the API Use Postman API Platform
             "status": 1
         }
 
-15. Delete Job
+        //employer id will be fetched from the auth()->user()->id 
+
+16. Delete Job
     
             end point (6 = job_post_id) (method = delete)
             http://127.0.0.1:8000/api/employer/delete-job/6
 
             use token of employer and only job post owner (employer) can delete or update the post
-16. update job posts
+17. update job posts
 
             end point (4 is job post id) method = put
             http://127.0.0.1:8000/api/employer/update-job-submission/4
@@ -200,7 +201,7 @@ To test the API Use Postman API Platform
                 "status": 1
             }
 
-17.  Update Job Application status
+18.  Update Job Application status
 
             endpoint (method = put)
              http://127.0.0.1:8000/api/employer/update-job-submissions-status/1
@@ -212,7 +213,7 @@ To test the API Use Postman API Platform
 
              after 10 minutes of submission the email will be sent to user.
 
-18. Get the job submissions details
+19. Get the job submissions details
 
             this details only available to job post owner (employer)
 
