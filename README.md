@@ -49,6 +49,16 @@ To get started with Job Board API, follow these steps:
         // $this->call(JobPostsTableSeeder::class);
         //$this->call(JobSubmissionsTableSeeder::class);
 
+
+To Test use following commands
+
+        php artisan test --filter=UserRegisterTest
+        php artisan test --filter=UserLoginTest
+        php artisan test --filter=EmployerRegisterTest
+        php artisan test --filter=EmployerLoginTest
+        php artisan test --filter=JobSubmissionTest
+        
+
 To test the API Use Postman API Platform
 
 1. Setup Postman
